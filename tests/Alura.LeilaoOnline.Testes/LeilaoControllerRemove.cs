@@ -2,6 +2,8 @@ using System;
 using Xunit;
 using Microsoft.AspNetCore.Mvc;
 using Alura.LeilaoOnline.WebApp.Controllers;
+using Alura.LeilaoOnline.WebApp.Dados.EfCore;
+using Alura.LeilaoOnline.WebApp.Services.Handlers;
 
 namespace Alura.LeilaoOnline.Testes
 {
@@ -13,7 +15,7 @@ namespace Alura.LeilaoOnline.Testes
             // arrange
             var idLeilaoInexistente = 11232; // preciso entrar no banco para saber qual é inexistente!! teste deixa de ser automático...
             var actionResultEsperado = typeof(NotFoundResult);
-            var controller = new LeilaoController();
+            var controller = new LeilaoController(new ArquivamentoAdminService(new LeilaoDaoComEfCore(new AppDbContext())));
 
             // act
             var result = controller.Remove(idLeilaoInexistente);
@@ -28,7 +30,7 @@ namespace Alura.LeilaoOnline.Testes
             // arrange
             var idLeilaoEmPregao = 11232; // qual leilao está em pregão???!! 
             var actionResultEsperado = typeof(StatusCodeResult);
-            var controller = new LeilaoController();
+            var controller = new LeilaoController(new ArquivamentoAdminService(new LeilaoDaoComEfCore(new AppDbContext())));
 
             // act
             var result = controller.Remove(idLeilaoEmPregao);
@@ -43,7 +45,7 @@ namespace Alura.LeilaoOnline.Testes
             // arrange
             var idLeilaoEmRascunho = 11232; // qual leilao está em rascunho???!!
             var actionResultEsperado = typeof(NoContentResult);
-            var controller = new LeilaoController();
+            var controller = new LeilaoController(new ArquivamentoAdminService(new LeilaoDaoComEfCore(new AppDbContext())));
 
             // act
             var result = controller.Remove(idLeilaoEmRascunho);
